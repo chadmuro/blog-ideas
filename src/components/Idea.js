@@ -11,13 +11,14 @@ import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	card: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		alignItems: 'center',
+        alignItems: 'center',
+        marginBottom: 2
 	},
-});
+}));
 
 const Idea = ({ id, title, keyNum }) => {
 	const classes = useStyles();
@@ -35,10 +36,10 @@ const Idea = ({ id, title, keyNum }) => {
 					</CardContent>
 					<CardActions>
 						<IconButton>
-							<CheckIcon />
+							<CheckIcon color="primary"/>
 						</IconButton>
 						<IconButton>
-							<DeleteIcon />
+							<DeleteIcon color="error"/>
 						</IconButton>
 					</CardActions>
 				</Card>

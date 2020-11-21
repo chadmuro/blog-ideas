@@ -4,7 +4,11 @@ import { makeStyles } from '@material-ui/styles';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+    container: {
+        margin: theme.spacing(2, 0, 0, 0)
+    }
+}));
 
 const sampleData = [
 	{ title: 'first one', key: 'one', id: 1 },
@@ -18,7 +22,7 @@ const Ideas = () => {
 	return (
 		<Droppable droppableId="ideas">
 			{provided => (
-				<Container ref={provided.innerRef} {...provided.droppableProps}>
+				<Container className={classes.container} ref={provided.innerRef} {...provided.droppableProps}>
 					{sampleData.map(idea => <Idea id={idea.id} keyNum={idea.key} key={idea.key} title={idea.title} />)}
                     {provided.placeholder}
 				</Container>
