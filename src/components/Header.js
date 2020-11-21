@@ -5,6 +5,7 @@ import {
 	Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { authLogout } from '../firebase/useAuth';
 
 import Input from '../utils/Input';
 
@@ -25,7 +26,7 @@ const Header = () => {
 		<AppBar className={classes.appbar}>
 			<Toolbar className={classes.navbar}>
 				<Input />
-                <Button variant="contained" color="secondary" size="small">Log out</Button>
+                <Button variant="contained" color="secondary" size="small" onClick={authLogout}>Log out</Button>
 			</Toolbar>
 		</AppBar>
 	);

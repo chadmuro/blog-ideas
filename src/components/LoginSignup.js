@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { authLogin, authSignup } from '../firebase/useAuth';
 
 const useStyles = makeStyles({
 	container: {
@@ -9,6 +10,9 @@ const useStyles = makeStyles({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	title: {
+		marginBottom: '1rem'
 	},
 	link: {
 		cursor: 'pointer',
@@ -30,7 +34,15 @@ const LoginSignup = () => {
 
 	const handleFormSubmit = e => {
 		e.preventDefault();
-		console.log(email, password);
+
+		if (displayLogin) {
+			authLogin(email, password);
+		} else {
+			authSignup(email, password);
+		}
+		setEmail('');
+		setPassword('');
+		setError('');
 	};
 
 	const handleFormChange = () => {
@@ -42,7 +54,7 @@ const LoginSignup = () => {
 
 	return (
 		<form className={classes.container} onSubmit={handleFormSubmit}>
-			<Typography variant="h4">{displayLogin ? 'Login' : 'Sign Up'}</Typography>
+			<Typography variant="h4" className={classes.title}>{displayLogin ? 'Login' : 'Sign Up'}</Typography>
 			<TextField
 				value={email}
 				onChange={e => setEmail(e.target.value)}
