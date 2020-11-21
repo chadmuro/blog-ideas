@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import AuthContextProvider from './contexts/AuthContext';
 
 const theme = createMuiTheme({
 	palette: {
@@ -16,10 +17,12 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
-  document.getElementById('root')
+	<ThemeProvider theme={theme}>
+		<AuthContextProvider>
+			<App />
+		</AuthContextProvider>
+	</ThemeProvider>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
