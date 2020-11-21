@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
 	},
 	addIcon: {
-		padding: 0,
+		padding: '1px',
 		height: '100%',
 		display: 'flex',
 		alignItems: 'center',
