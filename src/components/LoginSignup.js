@@ -36,13 +36,19 @@ const LoginSignup = () => {
 		e.preventDefault();
 
 		if (displayLogin) {
-			authLogin(email, password);
+			authLogin(email, password).then(() => {
+				setEmail('');
+				setPassword('');
+				setError('');
+			});
 		} else {
-			authSignup(email, password);
+			authSignup(email, password).then(() => {
+				setEmail('');
+				setPassword('');
+				setError('');
+			});
 		}
-		setEmail('');
-		setPassword('');
-		setError('');
+		
 	};
 
 	const handleFormChange = () => {

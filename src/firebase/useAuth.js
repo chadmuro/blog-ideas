@@ -1,15 +1,11 @@
 import { auth } from './config';
 
 export const authLogin = (email, password) => {
-    auth.signInWithEmailAndPassword(email, password).then(cred => {
-        console.log(cred.user);
-    });
+    return auth.signInWithEmailAndPassword(email, password);
 }
 
 export const authSignup = (email, password) => {
-    auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        console.log(cred.user);
-    });
+    return auth.createUserWithEmailAndPassword(email, password);
 }
 
 export const authLogout = () => {
