@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
 import { AuthContext } from '../contexts/AuthContext';
+import { GetIdeas } from '../firebase/useFirestore';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -11,21 +12,17 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const sampleData = [
-	{ title: 'first one', key: 'one', id: 1 },
-	{ title: 'second one', key: 'two', id: 2 },
-	{ title: 'third one', key: 'three', id: 3 }
-];
-
 const Ideas = () => {
 	const classes = useStyles();
 	const userInfo = useContext(AuthContext);
+
+	const { ideas } = GetIdeas();
 
 	return (
 		<Droppable droppableId="ideas">
 			{provided => (
 				<Container className={classes.container} ref={provided.innerRef} {...provided.droppableProps}>
-					{sampleData.map(idea => <Idea id={idea.id} keyNum={idea.key} key={idea.key} title={idea.title} />)}
+					{ideas.map((idea, index) => <Idea id={idea.id} index={index} key={idea.id}  title={idea.idea} completed={idea.completed}/>)}
                     {provided.placeholder}
 				</Container>
 			)}

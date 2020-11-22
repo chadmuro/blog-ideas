@@ -48,7 +48,6 @@ const LoginSignup = () => {
 				setError('');
 			});
 		}
-		
 	};
 
 	const handleFormChange = () => {

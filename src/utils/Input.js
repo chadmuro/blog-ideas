@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { InputBase, fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
+import { AddIdea } from '../firebase/useFirestore';
+import { AuthContext } from '../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
 	add: {
@@ -31,12 +33,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Input = () => {
-    const classes = useStyles();
-    const [ideaInput, setIdeaInput] = useState('');
+	const classes = useStyles();
+	const userInfo = useContext(AuthContext);
+	const [ideaInput, setIdeaInput] = useState('');
 
     const onSubmit = (e) => {
-        e.preventDefault();
-        console.log(ideaInput);
+		e.preventDefault();
+		
+		const idea = {
+			idea: ideaInput,
+			userId: userInfo.uid,
+			createdAt: new Date(),
+			completed: false
+		}
+
+		AddIdea(idea);
+		setIdeaInput('');
     }
 
 	return (

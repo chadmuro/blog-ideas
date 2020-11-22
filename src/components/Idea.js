@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
+import { DeleteIdea, ToggleCompleted } from '../firebase/useFirestore';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -18,12 +19,21 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         marginBottom: 2
 	},
+	completed: {
+		textDecoration: 'line-through',
+		opacity: .7
+	}
 }));
 
-const Idea = ({ id, title, keyNum }) => {
+const Idea = ({ id, title, completed, index }) => {
 	const classes = useStyles();
+
+	const handleCompleteClick = () => {
+		ToggleCompleted(id, completed);
+	}
+
 	return (
-		<Draggable draggableId={keyNum} index={id}>
+		<Draggable draggableId={id} index={index}>
 			{provided => (
 				<Card
 					className={classes.card}
@@ -32,14 +42,14 @@ const Idea = ({ id, title, keyNum }) => {
 					ref={provided.innerRef}
 				>
 					<CardContent>
-						<Typography>{title}</Typography>
+						{completed ? <Typography className={classes.completed}>{title}</Typography> : <Typography>{title}</Typography>}
 					</CardContent>
 					<CardActions>
-						<IconButton>
-							<CheckIcon color="primary"/>
+						<IconButton onClick={handleCompleteClick}>
+							<CheckIcon color="primary" />
 						</IconButton>
-						<IconButton>
-							<DeleteIcon color="error"/>
+						<IconButton onClick={() => DeleteIdea(id)}>
+							<DeleteIcon color="error" />
 						</IconButton>
 					</CardActions>
 				</Card>
