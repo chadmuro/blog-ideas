@@ -28,10 +28,6 @@ const useStyles = makeStyles(theme => ({
 const Idea = ({ id, title, completed, index }) => {
 	const classes = useStyles();
 
-	const handleCompleteClick = () => {
-		ToggleCompleted(id, completed);
-	}
-
 	return (
 		<Draggable draggableId={id} index={index}>
 			{provided => (
@@ -45,7 +41,7 @@ const Idea = ({ id, title, completed, index }) => {
 						{completed ? <Typography className={classes.completed}>{title}</Typography> : <Typography>{title}</Typography>}
 					</CardContent>
 					<CardActions>
-						<IconButton onClick={handleCompleteClick}>
+						<IconButton onClick={() => ToggleCompleted(id, completed)}>
 							<CheckIcon color="primary" />
 						</IconButton>
 						<IconButton onClick={() => DeleteIdea(id)}>

@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import AuthContextProvider from './contexts/AuthContext';
+import IdeasContextProvider from './contexts/IdeasContext';
 
 const theme = createMuiTheme({
 	palette: {
@@ -19,7 +20,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
 	<ThemeProvider theme={theme}>
 		<AuthContextProvider>
-			<App />
+			<IdeasContextProvider>
+				<App />
+			</IdeasContextProvider>
 		</AuthContextProvider>
 	</ThemeProvider>,
 	document.getElementById('root')
