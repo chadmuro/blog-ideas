@@ -43,7 +43,7 @@ const Input = () => {
 		const idea = {
 			idea: ideaInput,
 			userId: userInfo.uid,
-			createdAt: new Date(),
+			createdAt: new Date().getTime(),
 			completed: false
 		}
 

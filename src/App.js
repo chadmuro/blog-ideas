@@ -10,7 +10,6 @@ import { MoveIdea } from './firebase/useFirestore';
 const App = () => {
 	const userInfo = useContext(AuthContext);
 	const { ideas, setIdeas } = useContext(IdeasContext);
-	
 
 	const onDragEnd = result => {
 		const incompletedList = ideas.filter(idea => idea.completed === false);
@@ -37,35 +36,30 @@ const App = () => {
 
 			// create new timestamp to update firebase in correct order
 			let newTimestamp;
-			const destinationTimestamp =
-				ideas[destination.index].createdAt.seconds * 1000;
+			const destinationTimestamp = ideas[destination.index].createdAt;
 
 			if (destination.index === 0) {
-				newTimestamp = new Date(destinationTimestamp + 1000);
+				newTimestamp = destinationTimestamp + 1000;
 			}
 			if (destination.index >= incompletedList.length - 1) {
-				newTimestamp = new Date(ideas[incompletedList.length - 1].createdAt.seconds * 1000 - 1000);
+				newTimestamp = ideas[incompletedList.length - 1].createdAt - 1000;
 			}
 
 			if (
 				source.index < destination.index &&
 				destination.index < incompletedList.length - 1
 			) {
-				newTimestamp = new Date(
+				newTimestamp =
 					Math.ceil(
-						destinationTimestamp +
-							ideas[destination.index + 1].createdAt.seconds * 1000
-					) / 2
-				);
+						destinationTimestamp + ideas[destination.index + 1].createdAt
+					) / 2;
 			}
 
 			if (source.index > destination.index && destination.index !== 0) {
-				newTimestamp = new Date(
+				newTimestamp =
 					Math.floor(
-						destinationTimestamp +
-							ideas[destination.index - 1].createdAt.seconds * 1000
-					) / 2
-				);
+						destinationTimestamp + ideas[destination.index - 1].createdAt
+					) / 2;
 			}
 
 			const newTask = {
@@ -78,11 +72,12 @@ const App = () => {
 
 			MoveIdea(draggableId, newTask.createdAt);
 			setIdeas(newTaskList);
-		}	
+		}
 	};
 
 	return (
 		<div className="App">
+			{!userInfo && <AuthModal />}
 			{userInfo && (
 				<>
 					<Header />
@@ -91,7 +86,6 @@ const App = () => {
 					</DragDropContext>
 				</>
 			)}
-			{!userInfo && <AuthModal />}
 		</div>
 	);
 };

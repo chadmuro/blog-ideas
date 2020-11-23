@@ -3,7 +3,6 @@ import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
-import { AuthContext } from '../contexts/AuthContext';
 import { IdeasContext } from '../contexts/IdeasContext';
 
 const useStyles = makeStyles(theme => ({
@@ -14,7 +13,6 @@ const useStyles = makeStyles(theme => ({
 
 const Ideas = () => {
 	const classes = useStyles();
-	const userInfo = useContext(AuthContext);
 	const { ideas } = useContext(IdeasContext);
 
 	return (

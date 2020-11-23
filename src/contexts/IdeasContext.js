@@ -8,19 +8,22 @@ const IdeasContextProvider = props => {
 	const [ideas, setIdeas] = useState([]);
 	const userInfo = useContext(AuthContext);
 
-
     useEffect(() => {
 			const unsub = db
 				.collection('ideas')
+				.where('userId', '==', userInfo ? userInfo.uid : '')
 				.orderBy('completed')
 				.orderBy('createdAt', 'desc')
-				.onSnapshot(snapshot => {
-					let documents = [];
-					snapshot.forEach(doc => {
-						documents.push({ ...doc.data(), id: doc.id });
-					});
-					setIdeas(documents);
-				}, (err => console.log(err)));
+				.onSnapshot(
+					snapshot => {
+						let documents = [];
+						snapshot.forEach(doc => {
+							documents.push({ ...doc.data(), id: doc.id });
+						});
+						setIdeas(documents);
+					},
+					err => console.log(err)
+				);
 			return () => unsub();
 		}, [userInfo]);
 
