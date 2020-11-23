@@ -10,9 +10,13 @@ import { MoveIdea } from './firebase/useFirestore';
 const App = () => {
 	const userInfo = useContext(AuthContext);
 	const { ideas, setIdeas } = useContext(IdeasContext);
+	
 
 	const onDragEnd = result => {
+		const completedList = ideas.filter(idea => idea.completed === true);
+		const incompletedList = ideas.filter(idea => idea.completed === false);
 		console.log(result);
+		console.log(incompletedList);
 
 		const { destination, source, draggableId } = result;
 		if (!destination) {
@@ -25,47 +29,59 @@ const App = () => {
 			return;
 		}
 
-		const newTaskList = ideas.map(idea => {
-			return idea;
-		});
+		// check if draggable item is completed => no change
+		if (source.index >= incompletedList.length) {
+			return;
+		} else {
+			// create new list
+			const newTaskList = ideas.map(idea => {
+				return idea;
+			});
 
-		newTaskList.splice(source.index, 1);
+			// create new timestamp to update firebase in correct order
+			let newTimestamp;
+			const destinationTimestamp =
+				ideas[destination.index].createdAt.seconds * 1000;
 
-		let newTimestamp;
-		if (destination.index === 0) {
-			newTimestamp = new Date(
-				ideas[destination.index].createdAt.seconds * 1000 + 1000
-			);
-		} else if (destination.index === ideas.length - 1) {
-			newTimestamp = new Date(
-				ideas[destination.index].createdAt.seconds * 1000 - 1000
-			);
-		} else if (
-			source.index < destination.index &&
-			destination.index !== ideas.length - 1
-		) {
-			newTimestamp = new Date(
-				(ideas[destination.index].createdAt.seconds * 1000 +
-					ideas[destination.index + 1].createdAt.seconds * 1000) /
-					2
-			);
-		} else if (source.index > destination.index && destination.index !== 0) {
-			newTimestamp = new Date(
-				(ideas[destination.index].createdAt.seconds * 1000 +
-					ideas[destination.index - 1].createdAt.seconds * 1000) /
-				2
-			);
-		}
+			if (destination.index === 0) {
+				newTimestamp = new Date(destinationTimestamp + 1000);
+			}
+			if (destination.index >= incompletedList.length - 1) {
+				newTimestamp = new Date(ideas[incompletedList.length - 1].createdAt.seconds * 1000 - 1000);
+			}
 
-		const newTask = {
-			...ideas[source.index],
-			createdAt: newTimestamp,
-		};
+			if (
+				source.index < destination.index &&
+				destination.index < incompletedList.length - 1
+			) {
+				newTimestamp = new Date(
+					Math.ceil(
+						destinationTimestamp +
+							ideas[destination.index + 1].createdAt.seconds * 1000
+					) / 2
+				);
+			}
 
-		newTaskList.splice(destination.index, 0, newTask);
+			if (source.index > destination.index && destination.index !== 0) {
+				newTimestamp = new Date(
+					Math.floor(
+						destinationTimestamp +
+							ideas[destination.index - 1].createdAt.seconds * 1000
+					) / 2
+				);
+			}
 
-		MoveIdea(draggableId, newTask.createdAt);
-		setIdeas(newTaskList);
+			const newTask = {
+				...ideas[source.index],
+				createdAt: newTimestamp,
+			};
+
+			newTaskList.splice(source.index, 1);
+			newTaskList.splice(destination.index, 0, newTask);
+
+			MoveIdea(draggableId, newTask.createdAt);
+			setIdeas(newTaskList);
+		}	
 	};
 
 	return (
