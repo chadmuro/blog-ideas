@@ -8,8 +8,9 @@ const IdeasContextProvider = props => {
 
     useEffect(() => {
 			const unsub = db
-                .collection('ideas')
-                .orderBy('completed', 'asc')
+				.collection('ideas')
+				.orderBy('completed')
+				.orderBy('createdAt', 'desc')
 				.onSnapshot(snapshot => {
 					let documents = [];
 					snapshot.forEach(doc => {
