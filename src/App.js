@@ -13,10 +13,7 @@ const App = () => {
 	
 
 	const onDragEnd = result => {
-		const completedList = ideas.filter(idea => idea.completed === true);
 		const incompletedList = ideas.filter(idea => idea.completed === false);
-		console.log(result);
-		console.log(incompletedList);
 
 		const { destination, source, draggableId } = result;
 		if (!destination) {
