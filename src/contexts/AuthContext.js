@@ -4,7 +4,7 @@ import { auth } from '../firebase/config';
 export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-	const [userInfo, setUserInfo] = useState({});
+	const [userInfo, setUserInfo] = useState(null);
 
 	auth.onAuthStateChanged(user => {
 		if (user) {

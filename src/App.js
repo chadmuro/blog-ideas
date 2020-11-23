@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import { DragDropContext } from 'react-beautiful-dnd';
 import Header from './components/Header';
 import Ideas from './components/Ideas';
@@ -71,7 +70,6 @@ const App = () => {
 
 	return (
 		<div className="App">
-			{!userInfo && <AuthModal />}
 			{userInfo && (
 				<>
 					<Header />
@@ -80,6 +78,7 @@ const App = () => {
 					</DragDropContext>
 				</>
 			)}
+			{!userInfo && <AuthModal />}
 		</div>
 	);
 };
