@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 	},
 	title: {
-		marginBottom: '1rem'
+		marginBottom: '1rem',
 	},
 	link: {
 		cursor: 'pointer',
@@ -55,11 +55,13 @@ const LoginSignup = () => {
 		setEmail('');
 		setPassword('');
 		setError('');
-	}
+	};
 
 	return (
 		<form className={classes.container} onSubmit={handleFormSubmit}>
-			<Typography variant="h4" className={classes.title}>{displayLogin ? 'Login' : 'Sign Up'}</Typography>
+			<Typography variant="h4" className={classes.title}>
+				{displayLogin ? 'Login' : 'Sign Up'}
+			</Typography>
 			<TextField
 				value={email}
 				onChange={e => setEmail(e.target.value)}
@@ -88,10 +90,7 @@ const LoginSignup = () => {
 			<Typography className={classes.text}>
 				{displayLogin ? "Don't have an account?" : 'Already have an account?'}
 				&nbsp;
-				<Link
-					className={classes.link}
-					onClick={handleFormChange}
-				>
+				<Link className={classes.link} onClick={handleFormChange}>
 					{displayLogin ? 'Sign Up' : 'Login'}
 				</Link>
 			</Typography>

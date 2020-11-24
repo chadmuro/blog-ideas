@@ -4,23 +4,24 @@ import { auth } from '../firebase/config';
 export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-	const [userInfo, setUserInfo] = useState(null);
+	const [userInfo, setUserInfo] = useState({ uid: '' });
+	const [loading, setLoading] = useState(true);
 
 	auth.onAuthStateChanged(user => {
 		if (user) {
 			setUserInfo(user);
-			console.log(user);
+			setLoading(false);
 		} else {
 			setUserInfo(null);
-			console.log('not logged in');
+			setLoading(true);
 		}
-    });
-    
-    return (
-        <AuthContext.Provider value={userInfo}>
-            {props.children}
-        </AuthContext.Provider>
-    )
+	});
+
+	return (
+		<AuthContext.Provider value={{ userInfo, loading }}>
+			{props.children}
+		</AuthContext.Provider>
+	);
 };
 
 export default AuthContextProvider;

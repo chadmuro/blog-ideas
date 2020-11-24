@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Header from './components/Header';
 import Ideas from './components/Ideas';
@@ -8,7 +8,7 @@ import { IdeasContext } from './contexts/IdeasContext';
 import { MoveIdea } from './firebase/useFirestore';
 
 const App = () => {
-	const userInfo = useContext(AuthContext);
+	const { userInfo } = useContext(AuthContext);
 	const { ideas, setIdeas } = useContext(IdeasContext);
 
 	const onDragEnd = result => {

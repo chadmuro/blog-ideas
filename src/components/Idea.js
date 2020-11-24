@@ -16,13 +16,13 @@ const useStyles = makeStyles(theme => ({
 	card: {
 		display: 'flex',
 		justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 2
+		alignItems: 'center',
+		marginBottom: 2,
 	},
 	completed: {
 		textDecoration: 'line-through',
-		opacity: .7
-	}
+		opacity: 0.7,
+	},
 }));
 
 const Idea = ({ id, title, completed, index }) => {
@@ -38,7 +38,11 @@ const Idea = ({ id, title, completed, index }) => {
 					ref={provided.innerRef}
 				>
 					<CardContent>
-						{completed ? <Typography className={classes.completed}>{title}</Typography> : <Typography>{title}</Typography>}
+						{completed ? (
+							<Typography className={classes.completed}>{title}</Typography>
+						) : (
+							<Typography>{title}</Typography>
+						)}
 					</CardContent>
 					<CardActions>
 						<IconButton onClick={() => ToggleCompleted(id, completed)}>

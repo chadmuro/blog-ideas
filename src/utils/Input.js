@@ -13,8 +13,8 @@ const useStyles = makeStyles(theme => ({
 			backgroundColor: fade(theme.palette.common.white, 0.25),
 		},
 		width: '70%',
-        display: 'flex',
-        alignItems: 'center',
+		display: 'flex',
+		alignItems: 'center',
 	},
 	addIcon: {
 		padding: '1px',
@@ -34,22 +34,22 @@ const useStyles = makeStyles(theme => ({
 
 const Input = () => {
 	const classes = useStyles();
-	const userInfo = useContext(AuthContext);
+	const { userInfo } = useContext(AuthContext);
 	const [ideaInput, setIdeaInput] = useState('');
 
-    const onSubmit = (e) => {
+	const onSubmit = e => {
 		e.preventDefault();
-		
+
 		const idea = {
 			idea: ideaInput,
 			userId: userInfo.uid,
 			createdAt: new Date().getTime(),
-			completed: false
-		}
+			completed: false,
+		};
 
 		AddIdea(idea);
 		setIdeaInput('');
-    }
+	};
 
 	return (
 		<>
@@ -60,11 +60,11 @@ const Input = () => {
 						root: classes.inputRoot,
 						input: classes.inputInput,
 					}}
-                    fullWidth
-                    value={ideaInput}
-                    onChange={(e) => setIdeaInput(e.target.value)}
+					fullWidth
+					value={ideaInput}
+					onChange={e => setIdeaInput(e.target.value)}
 				/>
-				<AddIcon className={classes.addIcon} onClick={onSubmit}/>
+				<AddIcon className={classes.addIcon} onClick={onSubmit} />
 			</form>
 		</>
 	);

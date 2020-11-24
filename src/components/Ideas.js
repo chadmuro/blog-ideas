@@ -6,9 +6,9 @@ import Idea from './Idea';
 import { IdeasContext } from '../contexts/IdeasContext';
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        margin: theme.spacing(2, 0, 0, 0)
-    }
+	container: {
+		margin: theme.spacing(2, 0, 0, 0),
+	},
 }));
 
 const Ideas = () => {
@@ -18,9 +18,21 @@ const Ideas = () => {
 	return (
 		<Droppable droppableId="ideas">
 			{provided => (
-				<Container className={classes.container} ref={provided.innerRef} {...provided.droppableProps}>
-					{ideas.map((idea, index) => <Idea id={idea.id} index={index} key={idea.id}  title={idea.idea} completed={idea.completed}/>)}
-                    {provided.placeholder}
+				<Container
+					className={classes.container}
+					ref={provided.innerRef}
+					{...provided.droppableProps}
+				>
+					{ideas.map((idea, index) => (
+						<Idea
+							id={idea.id}
+							index={index}
+							key={idea.id}
+							title={idea.idea}
+							completed={idea.completed}
+						/>
+					))}
+					{provided.placeholder}
 				</Container>
 			)}
 		</Droppable>
