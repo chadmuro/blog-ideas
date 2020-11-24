@@ -40,15 +40,17 @@ const Input = () => {
 	const onSubmit = e => {
 		e.preventDefault();
 
-		const idea = {
-			idea: ideaInput,
-			userId: userInfo.uid,
-			createdAt: new Date().getTime(),
-			completed: false,
-		};
+		if (ideaInput) {
+			const idea = {
+				idea: ideaInput,
+				userId: userInfo.uid,
+				createdAt: new Date().getTime(),
+				completed: false,
+			};
 
-		AddIdea(idea);
-		setIdeaInput('');
+			AddIdea(idea);
+			setIdeaInput('');
+		}
 	};
 
 	return (
