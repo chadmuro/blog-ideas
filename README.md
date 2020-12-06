@@ -3,7 +3,7 @@ I created this web app to help me keep track of my ideas for writing on my Mediu
 
 ![blog post ideas preview](/img/blog-post.png)
 
-## Built With
+## Tech Stack
 - React - Hooks, Context API
 - [React-beautiful-dnd](https://www.npmjs.com/package/react-beautiful-dnd)
 - Material-UI
