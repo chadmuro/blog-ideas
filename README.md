@@ -1,10 +1,17 @@
 # Blog Post Ideas :bulb:
 I created this web app to help me keep track of my ideas for writing on my Medium blog. I added drag and drop functionality using react-beautiful-dnd and authentication with Firebase.
 
-## Built with
+(./img/blog-post.png)
+
+## Built With
 - React - Hooks, Context API
-- React-Beautiful-dnd
+- [React-beautiful-dnd](https://www.npmjs.com/package/react-beautiful-dnd)
+- Material-UI
 - Firebase - Authentication, Firestore
 
-## View App 
+## Use App
 https://blog-post-ideas.web.app/
+
+Create your own account and get started with the app or play around with the test account.
+login: test@test.com 
+password: test123
