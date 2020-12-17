@@ -2,16 +2,16 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { db } from '../firebase/config';
 import { AuthContext } from '../contexts/AuthContext';
 
-export const IdeasContext = createContext();
+export const PublishedContext = createContext();
 
-const IdeasContextProvider = props => {
-	const [ideas, setIdeas] = useState([]);
+const PublishedContextProvider = props => {
+	const [published, setPublished] = useState([]);
 	const { userInfo, loading } = useContext(AuthContext);
 
 	useEffect(() => {
 		if (!loading) {
 			const unsub = db
-				.collection('ideas')
+				.collection('published')
 				.where('userId', '==', userInfo.uid)
 				.orderBy('completed')
 				.orderBy('createdAt', 'desc')
@@ -21,7 +21,7 @@ const IdeasContextProvider = props => {
 						snapshot.forEach(doc => {
 							documents.push({ ...doc.data(), id: doc.id });
 						});
-						setIdeas(documents);
+						setPublished(documents);
 					},
 					err => console.log(err)
 				);
@@ -30,10 +30,10 @@ const IdeasContextProvider = props => {
 	}, [userInfo, loading]);
 
 	return (
-		<IdeasContext.Provider value={{ ideas, setIdeas }}>
+		<PublishedContext.Provider value={{ published, setPublished }}>
 			{props.children}
-		</IdeasContext.Provider>
+		</PublishedContext.Provider>
 	);
 };
 
-export default IdeasContextProvider;
+export default PublishedContextProvider;

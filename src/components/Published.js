@@ -3,7 +3,7 @@ import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
-import { IdeasContext } from '../contexts/IdeasContext';
+import { PublishedContext } from '../contexts/PublishedContext';
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const Published = () => {
 	const classes = useStyles();
-	const { ideas } = useContext(IdeasContext);
+	const { published } = useContext(PublishedContext);
 
 	return (
 		<Droppable droppableId="ideas">
@@ -24,7 +24,7 @@ const Published = () => {
 					ref={provided.innerRef}
 					{...provided.droppableProps}
 				>
-					{ideas.map((idea, index) => (
+					{published.map((idea, index) => (
 						<Idea
 							id={idea.id}
 							index={index}

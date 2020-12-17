@@ -1,6 +1,6 @@
 import { db } from './config';
 
-export const AddIdea = idea => {
+export const AddIdea = (idea) => {
 	db.collection('ideas')
 		.add({
 			...idea,

@@ -2,16 +2,16 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { db } from '../firebase/config';
 import { AuthContext } from '../contexts/AuthContext';
 
-export const IdeasContext = createContext();
+export const DraftsContext = createContext();
 
-const IdeasContextProvider = props => {
-	const [ideas, setIdeas] = useState([]);
+const DraftsContextProvider = props => {
+	const [drafts, setDrafts] = useState([]);
 	const { userInfo, loading } = useContext(AuthContext);
 
 	useEffect(() => {
 		if (!loading) {
 			const unsub = db
-				.collection('ideas')
+				.collection('drafts')
 				.where('userId', '==', userInfo.uid)
 				.orderBy('completed')
 				.orderBy('createdAt', 'desc')
@@ -21,7 +21,7 @@ const IdeasContextProvider = props => {
 						snapshot.forEach(doc => {
 							documents.push({ ...doc.data(), id: doc.id });
 						});
-						setIdeas(documents);
+						setDrafts(documents);
 					},
 					err => console.log(err)
 				);
@@ -30,10 +30,10 @@ const IdeasContextProvider = props => {
 	}, [userInfo, loading]);
 
 	return (
-		<IdeasContext.Provider value={{ ideas, setIdeas }}>
+		<DraftsContext.Provider value={{ drafts, setDrafts }}>
 			{props.children}
-		</IdeasContext.Provider>
+		</DraftsContext.Provider>
 	);
 };
 
-export default IdeasContextProvider;
+export default DraftsContextProvider;
