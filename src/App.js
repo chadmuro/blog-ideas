@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Header from './components/Header';
 import Ideas from './components/Ideas';
+import InProgress from './components/InProgress';
+import Published from './components/Published';
 import AuthModal from './components/AuthModal';
 import { AuthContext } from './contexts/AuthContext';
 import { IdeasContext } from './contexts/IdeasContext';
@@ -82,7 +84,11 @@ const App = () => {
 				<>
 					<Header />
 					<DragDropContext onDragEnd={onDragEnd}>
-						<Ideas />
+						<div style={{display: 'flex', justifyContent: 'center'}}>
+							<Ideas />
+							<InProgress />
+							<Published />
+						</div>
 					</DragDropContext>
 				</>
 			)}

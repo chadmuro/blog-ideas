@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Ideas = () => {
+const InProgress = () => {
 	const classes = useStyles();
 	const { ideas } = useContext(IdeasContext);
 
@@ -19,10 +19,10 @@ const Ideas = () => {
 		<Droppable droppableId="ideas">
 			{provided => (
 				<Container
+                    maxWidth="xs"
 					className={classes.container}
 					ref={provided.innerRef}
 					{...provided.droppableProps}
-					maxWidth="xs"
 				>
 					{ideas.map((idea, index) => (
 						<Idea
@@ -40,4 +40,4 @@ const Ideas = () => {
 	);
 };
 
-export default Ideas;
+export default InProgress;
