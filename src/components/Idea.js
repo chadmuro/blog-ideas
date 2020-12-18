@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	Card,
 	CardContent,
@@ -11,6 +11,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
 import { DeleteIdea, ToggleCompleted } from '../firebase/useFirestore';
+import { AuthContext } from '../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const Idea = ({ id, title, completed, index }) => {
 	const classes = useStyles();
+	const { userInfo } = useContext(AuthContext);
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -45,10 +47,10 @@ const Idea = ({ id, title, completed, index }) => {
 						)}
 					</CardContent>
 					<CardActions>
-						<IconButton onClick={() => ToggleCompleted(id, completed)}>
+						{/* <IconButton onClick={() => ToggleCompleted(id, completed)}>
 							<CheckIcon color="primary" />
-						</IconButton>
-						<IconButton onClick={() => DeleteIdea(id)}>
+						</IconButton> */}
+						<IconButton onClick={() => DeleteIdea(id, userInfo.uid)}>
 							<DeleteIcon color="error" />
 						</IconButton>
 					</CardActions>

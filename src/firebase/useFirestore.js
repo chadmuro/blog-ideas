@@ -1,7 +1,8 @@
 import { db } from './config';
 
-export const AddIdea = (idea) => {
-	db.collection('ideas')
+
+export const AddIdea = (idea, uid) => {
+	db.collection(uid)
 		.add({
 			...idea,
 		})
@@ -9,8 +10,8 @@ export const AddIdea = (idea) => {
 		.catch(err => console.log(err));
 };
 
-export const MoveIdea = (idea, date) => {
-	db.collection('ideas')
+export const MoveIdea = (idea, destination, date) => {
+	db.collection(destination)
 		.doc(idea)
 		.update({
 			createdAt: date,
@@ -19,12 +20,12 @@ export const MoveIdea = (idea, date) => {
 		.catch(err => console.log(err));
 };
 
-export const DeleteIdea = idea => {
-	db.collection('ideas').doc(idea).delete();
+export const DeleteIdea = (idea, uid) => {
+	db.collection(uid).doc(idea).delete();
 };
 
-export const ToggleCompleted = (idea, completed) => {
-	db.collection('ideas').doc(idea).update({
-		completed: !completed,
-	});
-};
+// export const ToggleCompleted = (idea, completed) => {
+// 	db.collection('ideas').doc(idea).update({
+// 		completed: !completed,
+// 	});
+// };

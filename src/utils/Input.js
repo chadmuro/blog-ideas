@@ -43,12 +43,12 @@ const Input = () => {
 		if (ideaInput) {
 			const idea = {
 				idea: ideaInput,
-				userId: userInfo.uid,
+				// userId: userInfo.uid,
 				createdAt: new Date().getTime(),
-				completed: false,
+				stage: 'idea',
 			};
 
-			AddIdea(idea);
+			AddIdea(idea, userInfo.uid);
 			setIdeaInput('');
 		}
 	};

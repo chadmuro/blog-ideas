@@ -5,8 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import AuthContextProvider from './contexts/AuthContext';
 import IdeasContextProvider from './contexts/IdeasContext';
-import DraftsContextProvider from './contexts/DraftsContext';
-import PublishedContextProvider from './contexts/PublishedContext';
 
 const theme = createMuiTheme({
 	palette: {
@@ -23,11 +21,7 @@ ReactDOM.render(
 	<ThemeProvider theme={theme}>
 		<AuthContextProvider>
 			<IdeasContextProvider>
-				<DraftsContextProvider>
-					<PublishedContextProvider>
-						<App />
-					</PublishedContextProvider>
-				</DraftsContextProvider>
+				<App />
 			</IdeasContextProvider>
 		</AuthContextProvider>
 	</ThemeProvider>,

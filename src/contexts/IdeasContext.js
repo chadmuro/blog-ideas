@@ -6,22 +6,40 @@ export const IdeasContext = createContext();
 
 const IdeasContextProvider = props => {
 	const [ideas, setIdeas] = useState([]);
+	const [drafts, setDrafts] = useState([]);
+	const [published, setPublished] = useState([]);
 	const { userInfo, loading } = useContext(AuthContext);
 
 	useEffect(() => {
 		if (!loading) {
 			const unsub = db
-				.collection('ideas')
-				.where('userId', '==', userInfo.uid)
-				.orderBy('completed')
+				.collection(userInfo.uid)
+				// .where('userId', '==', userInfo.uid)
+				// .orderBy('completed')
 				.orderBy('createdAt', 'desc')
 				.onSnapshot(
 					snapshot => {
-						let documents = [];
+						let ideasDocuments = [];
+						let draftsDocuments = [];
+						let publishedDocuments = [];
 						snapshot.forEach(doc => {
-							documents.push({ ...doc.data(), id: doc.id });
+							switch (doc.data().stage) {
+								case 'idea':
+									ideasDocuments.push({ ...doc.data(), id: doc.id });
+									break;
+								case 'draft':
+									draftsDocuments.push({ ...doc.data(), id: doc.id });
+									break;
+								case 'published':
+									publishedDocuments.push({ ...doc.data(), id: doc.id });
+									break;
+								default: 
+									return;
+							}
 						});
-						setIdeas(documents);
+						setIdeas(ideasDocuments);
+						setDrafts(draftsDocuments);
+						setPublished(publishedDocuments);
 					},
 					err => console.log(err)
 				);
@@ -29,8 +47,10 @@ const IdeasContextProvider = props => {
 		}
 	}, [userInfo, loading]);
 
+	console.log(ideas, drafts, published);
+
 	return (
-		<IdeasContext.Provider value={{ ideas, setIdeas }}>
+		<IdeasContext.Provider value={{ ideas, setIdeas, drafts, setDrafts, published, setPublished }}>
 			{props.children}
 		</IdeasContext.Provider>
 	);

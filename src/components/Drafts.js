@@ -3,7 +3,7 @@ import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
-import { DraftsContext } from '../contexts/DraftsContext';
+import { IdeasContext } from '../contexts/IdeasContext';
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -13,10 +13,10 @@ const useStyles = makeStyles(theme => ({
 
 const Drafts = () => {
 	const classes = useStyles();
-	const { drafts } = useContext(DraftsContext);
+	const { drafts } = useContext(IdeasContext);
 
 	return (
-		<Droppable droppableId="ideas">
+		<Droppable droppableId="drafts">
 			{provided => (
 				<Container
                     maxWidth="xs"

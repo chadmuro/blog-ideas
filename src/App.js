@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Header from './components/Header';
 import Ideas from './components/Ideas';
@@ -26,6 +26,10 @@ const App = () => {
 		) {
 			return;
 		}
+
+		console.log(result, ideas);
+
+
 
 		// check if draggable item is completed => no change
 		if (source.index >= incompletedList.length) {
@@ -72,7 +76,7 @@ const App = () => {
 			newTaskList.splice(source.index, 1);
 			newTaskList.splice(destination.index, 0, newTask);
 
-			MoveIdea(draggableId, newTask.createdAt);
+			MoveIdea(draggableId, destination.droppableId, newTask.createdAt);
 			setIdeas(newTaskList);
 		}
 	};
