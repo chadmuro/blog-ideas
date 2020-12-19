@@ -45,7 +45,7 @@ const Input = () => {
 				idea: ideaInput,
 				// userId: userInfo.uid,
 				createdAt: new Date().getTime(),
-				stage: 'idea',
+				stage: 'ideas',
 			};
 
 			AddIdea(idea, userInfo.uid);

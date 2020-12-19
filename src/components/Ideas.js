@@ -24,7 +24,7 @@ const Ideas = () => {
 					{...provided.droppableProps}
 					maxWidth="xs"
 				>
-					{ideas.map((idea, index) => (
+					{ideas.ideas.map((idea, index) => (
 						<Idea
 							id={idea.id}
 							index={index}

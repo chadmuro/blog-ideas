@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const Published = () => {
 	const classes = useStyles();
-	const { published } = useContext(IdeasContext);
+	const { ideas } = useContext(IdeasContext);
 
 	return (
 		<Droppable droppableId="published">
@@ -24,7 +24,7 @@ const Published = () => {
 					ref={provided.innerRef}
 					{...provided.droppableProps}
 				>
-					{published.map((idea, index) => (
+					{ideas.published.map((idea, index) => (
 						<Idea
 							id={idea.id}
 							index={index}

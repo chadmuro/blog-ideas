@@ -10,11 +10,12 @@ export const AddIdea = (idea, uid) => {
 		.catch(err => console.log(err));
 };
 
-export const MoveIdea = (idea, destination, date) => {
-	db.collection(destination)
+export const MoveIdea = (idea, uid, destination, date) => {
+	db.collection(uid)
 		.doc(idea)
 		.update({
 			createdAt: date,
+			stage: destination
 		})
 		.then(() => console.log('firestore updated'))
 		.catch(err => console.log(err));
