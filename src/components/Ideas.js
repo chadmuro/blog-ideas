@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Container, Typography, makeStyles } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
 import { IdeasContext } from '../contexts/IdeasContext';
@@ -16,27 +15,30 @@ const Ideas = () => {
 	const { ideas } = useContext(IdeasContext);
 
 	return (
-		<Droppable droppableId="ideas">
-			{provided => (
-				<Container
-					className={classes.container}
-					ref={provided.innerRef}
-					{...provided.droppableProps}
-					maxWidth="xs"
-				>
-					{ideas.ideas.map((idea, index) => (
-						<Idea
-							id={idea.id}
-							index={index}
-							key={idea.id}
-							title={idea.idea}
-							completed={idea.completed}
-						/>
-					))}
-					{provided.placeholder}
-				</Container>
-			)}
-		</Droppable>
+		<>
+			<Droppable droppableId="ideas">
+				{provided => (
+					<Container
+						className={classes.container}
+						ref={provided.innerRef}
+						{...provided.droppableProps}
+						maxWidth="xs"
+					>
+						<Typography align="center">Ideas</Typography>
+						{ideas.ideas.map((idea, index) => (
+							<Idea
+								id={idea.id}
+								index={index}
+								key={idea.id}
+								title={idea.idea}
+								completed={idea.completed}
+							/>
+						))}
+						{provided.placeholder}
+					</Container>
+				)}
+			</Droppable>
+		</>
 	);
 };
 

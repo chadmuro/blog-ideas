@@ -11,9 +11,7 @@ import { MoveIdea } from './firebase/useFirestore';
 
 const App = () => {
 	const { userInfo } = useContext(AuthContext);
-	const { ideas, setIdeas } = useContext(
-		IdeasContext
-	);
+	const { ideas, setIdeas } = useContext(IdeasContext);
 
 	const onDragEnd = result => {
 		const { destination, source, draggableId } = result;
@@ -30,11 +28,13 @@ const App = () => {
 		let start = source.droppableId;
 		let end = destination.droppableId;
 
+		// if idea is in the same column
 		if (start === end) {
 			const newTaskList = ideas[start].map(idea => {
 				return idea;
 			});
 
+			// create new timestamp
 			let newTimestamp;
 			const destinationTimestamp = ideas[end][destination.index].createdAt;
 
@@ -42,7 +42,6 @@ const App = () => {
 				newTimestamp = destinationTimestamp + 1000;
 			}
 			if (destination.index === ideas[end].length - 1) {
-				// newTimestamp = (ideas[end].length - 1).createdAt - 1000;
 				newTimestamp = destinationTimestamp - 1000;
 			}
 
@@ -72,35 +71,35 @@ const App = () => {
 			newTaskList.splice(source.index, 1);
 			newTaskList.splice(destination.index, 0, newTask);
 
-			console.log(newTaskList);
-
-			if(start === 'ideas') {
+			// update state first to have smooth animation
+			if (start === 'ideas') {
 				setIdeas({
 					...ideas,
 					ideas: newTaskList,
 				});
 			}
-			if(start === 'drafts') {
+			if (start === 'drafts') {
 				setIdeas({
 					...ideas,
 					drafts: newTaskList,
 				});
 			}
-			if(start === 'published') {
+			if (start === 'published') {
 				setIdeas({
 					...ideas,
 					published: newTaskList,
 				});
 			}
-			
+
+			// update database
 			MoveIdea(
 				draggableId,
 				userInfo.uid,
 				destination.droppableId,
 				newTimestamp
 			);
-			
 		} else {
+			// if idea is moved to a new column
 			const startTaskList = ideas[start].map(idea => {
 				return idea;
 			});
@@ -108,13 +107,12 @@ const App = () => {
 				return idea;
 			});
 
+			// create new timestamp
 			let newTimestamp;
-			// const startTimestamp = ideas[start][source.index].createdAt;
 
-			if(ideas[end].length === 0) {
-				newTimestamp = ideas[start][source.index].createdAt;;
+			if (ideas[end].length === 0) {
+				newTimestamp = ideas[start][source.index].createdAt;
 			} else {
-				// const destinationTimestamp = ideas[end][destination.index].createdAt;
 				if (destination.index === 0) {
 					newTimestamp = ideas[end][destination.index].createdAt + 1000;
 				}
@@ -134,7 +132,6 @@ const App = () => {
 				}
 			}
 
-
 			const newTask = {
 				...ideas[start][source.index],
 				createdAt: newTimestamp,
@@ -144,12 +141,13 @@ const App = () => {
 			startTaskList.splice(source.index, 1);
 			endTaskList.splice(destination.index, 0, newTask);
 
+			// update state first to have smooth animation
 			if (start === 'ideas') {
 				if (end === 'drafts') {
 					setIdeas({
 						...ideas,
 						ideas: startTaskList,
-						drafts: endTaskList
+						drafts: endTaskList,
 					});
 				}
 				if (end === 'published') {
@@ -158,7 +156,7 @@ const App = () => {
 						ideas: startTaskList,
 						published: endTaskList,
 					});
-				}	
+				}
 			}
 			if (start === 'drafts') {
 				if (end === 'ideas') {
@@ -193,6 +191,7 @@ const App = () => {
 				}
 			}
 
+			// update database
 			MoveIdea(
 				draggableId,
 				userInfo.uid,

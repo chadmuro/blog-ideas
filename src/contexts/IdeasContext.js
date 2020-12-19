@@ -14,7 +14,7 @@ const IdeasContextProvider = props => {
 	const { userInfo, loading } = useContext(AuthContext);
 
 	useEffect(() => {
-		if (!loading) {
+		if (!loading && userInfo) {
 			const unsub = db
 				.collection(userInfo.uid)
 				.orderBy('createdAt', 'desc')
