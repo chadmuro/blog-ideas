@@ -1,20 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	Card,
-	CardContent,
 	CardActions,
 	IconButton,
 	Typography,
+	makeStyles,
+	TextField,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
 import { DeleteIdea, MoveIdea } from '../firebase/useFirestore';
 import { AuthContext } from '../contexts/AuthContext';
-
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Idea = ({ id, title, stage, index }) => {
+	const [editIdea, setEditIdea] = useState(false);
 	const classes = useStyles();
 	const { userInfo } = useContext(AuthContext);
 
@@ -59,10 +61,6 @@ const Idea = ({ id, title, stage, index }) => {
 		}
 	};
 
-	const editIdea = () => {
-		console.log('edit or delete idea');
-	}
-
 	return (
 		<Draggable draggableId={id} index={index}>
 			{provided => (
@@ -73,35 +71,68 @@ const Idea = ({ id, title, stage, index }) => {
 					ref={provided.innerRef}
 				>
 					<CardActions>
-						<IconButton size="small" onClick={editIdea}>
-							<EditIcon color="secondary" fontSize="small" />
+						<IconButton size="small" onClick={() => setEditIdea(!editIdea)}>
+							{editIdea && <CloseIcon fontSize="small" />}
+							{!editIdea && <EditIcon color="secondary" fontSize="small" />}
 						</IconButton>
 					</CardActions>
-					{/* {stage === 'published' && (
-						<Typography className={classes.completed}>{title}</Typography>
-					)} */}
-					{stage === 'published' && (
-						<Typography className={classes.completed}>{title}</Typography>
-					)}
+					{stage === 'published' &&
+						(editIdea ? (
+							<TextField className={classes.idea} defaultValue={title} />
+						) : (
+							<Typography className={classes.completed}>{title}</Typography>
+						))}
 
-					{stage !== 'published' && (
-						<Typography className={classes.idea}>{title}</Typography>
-					)}
+					{stage !== 'published' &&
+						(editIdea ? (
+							<TextField className={classes.idea} defaultValue={title} />
+						) : (
+							<Typography className={classes.idea}>{title}</Typography>
+						))}
 					<CardActions>
-						{/* <IconButton onClick={() => DeleteIdea(id, userInfo.uid)}>
+						{/* <IconButton  size="small" onClick={() => DeleteIdea(id, userInfo.uid)}>
 							<DeleteIcon color="error" />
 						</IconButton> */}
 
-						{stage !== 'ideas' && (
-							<IconButton size="small" onClick={prevStage}>
-								<NavigateBeforeIcon color="primary" />
-							</IconButton>
+						{editIdea && (
+							<>
+								<IconButton
+									size="small"
+									onClick={() => DeleteIdea(id, userInfo.uid)}
+								>
+									<CheckIcon color="primary" fontSize="small" />
+								</IconButton>
+								<IconButton
+									size="small"
+									onClick={() => DeleteIdea(id, userInfo.uid)}
+								>
+									<DeleteIcon color="error" fontSize="small" />
+								</IconButton>
+							</>
 						)}
 
-						{stage !== 'published' && (
-							<IconButton size="small" onClick={nextStage}>
-								<NavigateNextIcon color="primary" />
+						{/* {!editIdea && (
+							
+						)} */}
+						{stage === 'published' && (
+							<IconButton size="small" onClick={prevStage}>
+								<NavigateBeforeIcon color="primary" fontSize="small" />
 							</IconButton>
+						)}
+						{stage === 'ideas' && (
+							<IconButton size="small" onClick={nextStage}>
+								<NavigateNextIcon color="primary" fontSize="small" />
+							</IconButton>
+						)}
+						{stage === 'drafts' && (
+							<>
+								<IconButton size="small" onClick={prevStage}>
+									<NavigateBeforeIcon color="primary" fontSize="small" />
+								</IconButton>
+								<IconButton size="small" onClick={nextStage}>
+									<NavigateNextIcon color="primary" fontSize="small" />
+								</IconButton>
+							</>
 						)}
 					</CardActions>
 				</Card>
