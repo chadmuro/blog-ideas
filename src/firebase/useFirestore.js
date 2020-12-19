@@ -24,9 +24,3 @@ export const MoveIdea = (idea, uid, destination, date) => {
 export const DeleteIdea = (idea, uid) => {
 	db.collection(uid).doc(idea).delete();
 };
-
-// export const ToggleCompleted = (idea, completed) => {
-// 	db.collection('ideas').doc(idea).update({
-// 		completed: !completed,
-// 	});
-// };

@@ -15,30 +15,28 @@ const Ideas = () => {
 	const { ideas } = useContext(IdeasContext);
 
 	return (
-		<>
-			<Droppable droppableId="ideas">
-				{provided => (
-					<Container
-						className={classes.container}
-						ref={provided.innerRef}
-						{...provided.droppableProps}
-						maxWidth="xs"
-					>
-						<Typography align="center">Ideas</Typography>
-						{ideas.ideas.map((idea, index) => (
-							<Idea
-								id={idea.id}
-								index={index}
-								key={idea.id}
-								title={idea.idea}
-								completed={idea.completed}
-							/>
-						))}
-						{provided.placeholder}
-					</Container>
-				)}
-			</Droppable>
-		</>
+		<Droppable droppableId="ideas">
+			{provided => (
+				<Container
+					className={classes.container}
+					ref={provided.innerRef}
+					{...provided.droppableProps}
+					maxWidth="xs"
+				>
+					<Typography variant="h5" align="center">Ideas</Typography>
+					{ideas.ideas.map((idea, index) => (
+						<Idea
+							id={idea.id}
+							index={index}
+							key={idea.id}
+							title={idea.idea}
+							stage={idea.stage}
+						/>
+					))}
+					{provided.placeholder}
+				</Container>
+			)}
+		</Droppable>
 	);
 };
 

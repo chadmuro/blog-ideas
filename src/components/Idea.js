@@ -7,11 +7,14 @@ import {
 	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import CheckIcon from '@material-ui/icons/Check';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
-import { DeleteIdea, ToggleCompleted } from '../firebase/useFirestore';
+import { DeleteIdea, MoveIdea } from '../firebase/useFirestore';
 import { AuthContext } from '../contexts/AuthContext';
+
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -20,15 +23,45 @@ const useStyles = makeStyles(theme => ({
 		alignItems: 'center',
 		marginBottom: 2,
 	},
+	idea: {
+		flex: 1,
+		justifySelf: 'flex-start',
+	},
 	completed: {
 		textDecoration: 'line-through',
 		opacity: 0.7,
+		flex: 1,
+		justifySelf: 'flex-start',
 	},
 }));
 
-const Idea = ({ id, title, completed, index }) => {
+const Idea = ({ id, title, stage, index }) => {
 	const classes = useStyles();
 	const { userInfo } = useContext(AuthContext);
+
+	const nextStage = () => {
+		console.log('next stage');
+		if (stage === 'ideas') {
+			MoveIdea(id, userInfo.uid, 'drafts', new Date().getTime());
+		}
+		if (stage === 'drafts') {
+			MoveIdea(id, userInfo.uid, 'published', new Date().getTime());
+		}
+	};
+
+	const prevStage = () => {
+		console.log('prev stage');
+		if (stage === 'drafts') {
+			MoveIdea(id, userInfo.uid, 'ideas', new Date().getTime());
+		}
+		if (stage === 'published') {
+			MoveIdea(id, userInfo.uid, 'drafts', new Date().getTime());
+		}
+	};
+
+	const editIdea = () => {
+		console.log('edit or delete idea');
+	}
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -39,20 +72,37 @@ const Idea = ({ id, title, completed, index }) => {
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
 				>
-					<CardContent>
-						{completed ? (
-							<Typography className={classes.completed}>{title}</Typography>
-						) : (
-							<Typography>{title}</Typography>
-						)}
-					</CardContent>
 					<CardActions>
-						{/* <IconButton onClick={() => ToggleCompleted(id, completed)}>
-							<CheckIcon color="primary" />
-						</IconButton> */}
-						<IconButton onClick={() => DeleteIdea(id, userInfo.uid)}>
-							<DeleteIcon color="error" />
+						<IconButton size="small" onClick={editIdea}>
+							<EditIcon color="secondary" fontSize="small" />
 						</IconButton>
+					</CardActions>
+					{/* {stage === 'published' && (
+						<Typography className={classes.completed}>{title}</Typography>
+					)} */}
+					{stage === 'published' && (
+						<Typography className={classes.completed}>{title}</Typography>
+					)}
+
+					{stage !== 'published' && (
+						<Typography className={classes.idea}>{title}</Typography>
+					)}
+					<CardActions>
+						{/* <IconButton onClick={() => DeleteIdea(id, userInfo.uid)}>
+							<DeleteIcon color="error" />
+						</IconButton> */}
+
+						{stage !== 'ideas' && (
+							<IconButton size="small" onClick={prevStage}>
+								<NavigateBeforeIcon color="primary" />
+							</IconButton>
+						)}
+
+						{stage !== 'published' && (
+							<IconButton size="small" onClick={nextStage}>
+								<NavigateNextIcon color="primary" />
+							</IconButton>
+						)}
 					</CardActions>
 				</Card>
 			)}

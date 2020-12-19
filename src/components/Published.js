@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Container, Typography, makeStyles } from '@material-ui/core';
 import { Droppable } from 'react-beautiful-dnd';
 import Idea from './Idea';
 import { IdeasContext } from '../contexts/IdeasContext';
@@ -24,13 +23,16 @@ const Published = () => {
 					ref={provided.innerRef}
 					{...provided.droppableProps}
 				>
+					<Typography variant="h5" align="center">
+						Published
+					</Typography>
 					{ideas.published.map((idea, index) => (
 						<Idea
 							id={idea.id}
 							index={index}
 							key={idea.id}
 							title={idea.idea}
-							completed={idea.completed}
+							stage={idea.stage}
 						/>
 					))}
 					{provided.placeholder}
