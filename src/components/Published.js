@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
 	container: {
 		margin: theme.spacing(2, 0, 0, 0),
 	},
+	title: {
+		marginBottom: theme.spacing(2),
+	},
 }));
 
 const Published = () => {
@@ -23,7 +26,7 @@ const Published = () => {
 					ref={provided.innerRef}
 					{...provided.droppableProps}
 				>
-					<Typography variant="h5" align="center">
+					<Typography variant="h5" align="center" className={classes.title}>
 						Published
 					</Typography>
 					{ideas.published.map((idea, index) => (

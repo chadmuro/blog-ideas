@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
 	container: {
 		margin: theme.spacing(2, 0, 0, 0),
 	},
+	title: {
+		marginBottom: theme.spacing(2),
+	},
 }));
 
 const Ideas = () => {
@@ -23,7 +26,9 @@ const Ideas = () => {
 					{...provided.droppableProps}
 					maxWidth="xs"
 				>
-					<Typography variant="h5" align="center">Ideas</Typography>
+					<Typography variant="h5" align="center" className={classes.title}>
+						Ideas
+					</Typography>
 					{ideas.ideas.map((idea, index) => (
 						<Idea
 							id={idea.id}
