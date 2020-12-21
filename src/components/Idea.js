@@ -14,7 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Draggable } from 'react-beautiful-dnd';
-import { DeleteIdea, MoveIdea } from '../firebase/useFirestore';
+import { DeleteIdea, MoveIdea, UpdateIdea } from '../firebase/useFirestore';
 import { AuthContext } from '../contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
@@ -38,11 +38,11 @@ const useStyles = makeStyles(theme => ({
 
 const Idea = ({ id, title, stage, index }) => {
 	const [editIdea, setEditIdea] = useState(false);
+	const [updatedIdea, setUpdatedIdea] = useState(title);
 	const classes = useStyles();
 	const { userInfo } = useContext(AuthContext);
 
 	const nextStage = () => {
-		console.log('next stage');
 		if (stage === 'ideas') {
 			MoveIdea(id, userInfo.uid, 'drafts', new Date().getTime());
 		}
@@ -52,13 +52,17 @@ const Idea = ({ id, title, stage, index }) => {
 	};
 
 	const prevStage = () => {
-		console.log('prev stage');
 		if (stage === 'drafts') {
 			MoveIdea(id, userInfo.uid, 'ideas', new Date().getTime());
 		}
 		if (stage === 'published') {
 			MoveIdea(id, userInfo.uid, 'drafts', new Date().getTime());
 		}
+	};
+
+	const handleUpdate = () => {
+		UpdateIdea(id, userInfo.uid, updatedIdea);
+		setEditIdea(false);
 	};
 
 	return (
@@ -78,28 +82,29 @@ const Idea = ({ id, title, stage, index }) => {
 					</CardActions>
 					{stage === 'published' &&
 						(editIdea ? (
-							<TextField className={classes.idea} defaultValue={title} />
+							<TextField
+								className={classes.idea}
+								value={updatedIdea}
+								onChange={e => setUpdatedIdea(e.target.value)}
+							/>
 						) : (
 							<Typography className={classes.completed}>{title}</Typography>
 						))}
 
 					{stage !== 'published' &&
 						(editIdea ? (
-							<TextField className={classes.idea} defaultValue={title} />
+							<TextField
+								className={classes.idea}
+								value={updatedIdea}
+								onChange={e => setUpdatedIdea(e.target.value)}
+							/>
 						) : (
 							<Typography className={classes.idea}>{title}</Typography>
 						))}
 					<CardActions>
-						{/* <IconButton  size="small" onClick={() => DeleteIdea(id, userInfo.uid)}>
-							<DeleteIcon color="error" />
-						</IconButton> */}
-
 						{editIdea && (
 							<>
-								<IconButton
-									size="small"
-									onClick={() => DeleteIdea(id, userInfo.uid)}
-								>
+								<IconButton size="small" onClick={handleUpdate}>
 									<CheckIcon color="primary" fontSize="small" />
 								</IconButton>
 								<IconButton
@@ -111,20 +116,17 @@ const Idea = ({ id, title, stage, index }) => {
 							</>
 						)}
 
-						{/* {!editIdea && (
-							
-						)} */}
-						{stage === 'published' && (
+						{!editIdea && stage === 'published' && (
 							<IconButton size="small" onClick={prevStage}>
 								<NavigateBeforeIcon color="primary" fontSize="small" />
 							</IconButton>
 						)}
-						{stage === 'ideas' && (
+						{!editIdea && stage === 'ideas' && (
 							<IconButton size="small" onClick={nextStage}>
 								<NavigateNextIcon color="primary" fontSize="small" />
 							</IconButton>
 						)}
-						{stage === 'drafts' && (
+						{!editIdea && stage === 'drafts' && (
 							<>
 								<IconButton size="small" onClick={prevStage}>
 									<NavigateBeforeIcon color="primary" fontSize="small" />
