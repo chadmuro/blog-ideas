@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { makeStyles, useMediaQuery } from '@material-ui/core';
 import Header from './components/Header';
 import Ideas from './components/Ideas';
 import Drafts from './components/Drafts';
@@ -9,9 +10,21 @@ import { AuthContext } from './contexts/AuthContext';
 import { IdeasContext } from './contexts/IdeasContext';
 import { MoveIdea } from './firebase/useFirestore';
 
+const useStyles = makeStyles(theme => ({
+	container: {
+		display: 'flex',
+		justifyContent: 'center',
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+			alignItems: 'center',
+		},
+	},
+}));
+
 const App = () => {
 	const { userInfo } = useContext(AuthContext);
 	const { ideas, setIdeas } = useContext(IdeasContext);
+	const classes = useStyles();
 
 	const onDragEnd = result => {
 		const { destination, source, draggableId } = result;
@@ -208,7 +221,7 @@ const App = () => {
 				<>
 					<Header />
 					<DragDropContext onDragEnd={onDragEnd}>
-						<div style={{ display: 'flex', justifyContent: 'center' }}>
+						<div className={classes.container} >
 							<Ideas />
 							<Drafts />
 							<Published />
